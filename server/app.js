@@ -9,7 +9,18 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  console.log(socket);
+  console.log("Connected to socket:", socket.id);
+
+  socket.on("create-something", (val) => {
+    console.log("Value from client is:", val);
+
+    console.log("Server will emit a response to the client");
+
+    socket.emit(
+      "create-something-response",
+      `Hello ${val}, how can I help you?`
+    );
+  });
 });
 
 io.on("disconnect", (socket) => {

@@ -3,11 +3,12 @@ import { io } from 'socket.io-client'
 
 export const state = reactive({
   connected: false,
-  fooEvents: [],
-  barEvents: []
+  // This is the value of returned message from server
+  returnMessage: ''
 })
 
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000'
+// Localhost only, change this if you use environment variable / another static value
+const URL = 'http://localhost:3000'
 
 export const socket = io(URL)
 
@@ -19,10 +20,7 @@ socket.on('disconnect', () => {
   state.connected = false
 })
 
-socket.on('foo', (...args) => {
-  state.fooEvents.push(args)
-})
-
-socket.on('bar', (...args) => {
-  state.barEvents.push(args)
+// If we get a response from the server
+socket.on('create-something-response', (returnMessage) => {
+  state.returnMessage = returnMessage
 })

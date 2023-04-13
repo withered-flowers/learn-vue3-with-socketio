@@ -1,6 +1,7 @@
 <script>
 // Import mapState to access the store (pinia) state
-import { mapState } from 'pinia'
+// Import mapActions to connect to socket server and subscribe socket event
+import { mapActions, mapState } from 'pinia'
 
 import ConnectionManager from '@/components/ConnectionManager.vue'
 import ConnectionState from '@/components/ConnectionState.vue'
@@ -18,6 +19,14 @@ export default {
   computed: {
     // Since we're using the state from store, we can call it directly
     ...mapState(useSocketStore, ['connected'])
+  },
+  methods: {
+    ...mapActions(useSocketStore, ['connectToSocketServer', 'subscribeSocketEvent'])
+  },
+  // Will call the method on App mounted
+  created() {
+    this.connectToSocketServer()
+    this.subscribeSocketEvent()
   }
 }
 </script>

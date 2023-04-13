@@ -21,10 +21,14 @@ io.on("connection", (socket) => {
       `Hello ${val}, how can I help you?`
     );
   });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnect:", socket.id);
+  });
 });
 
 io.on("disconnect", (socket) => {
-  console.log(socket);
+  console.log("Server disconnect", socket);
 });
 
 httpServer.listen(3000);
